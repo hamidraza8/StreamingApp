@@ -10,6 +10,7 @@ namespace Core.Enums
     {
         None = 0,
         Admin = 1,
-        User = 2
+        User = 2,
+        app=3
     }
 }
