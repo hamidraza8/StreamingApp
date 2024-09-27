@@ -3,10 +3,12 @@ version: 0.2
 phases:
   install:
     commands:
+      - echo Installing required dependencies
+      - yum install -y libicu  # For Amazon Linux
+      - apt-get update && apt-get install -y libicu-dev  # For Ubuntu-based environments
       - echo Installing .NET Core 8.0 SDK
       - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0  # Install .NET 8.0 SDK
       - export PATH="$PATH:$HOME/.dotnet"
-      - export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true  # Disable globalization
       - dotnet --version  # Verify the SDK installation
   pre_build:
     commands:
