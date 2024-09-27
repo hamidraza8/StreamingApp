@@ -25,4 +25,4 @@ phases:
 artifacts:
   files:
     - 'publish/**/*'  # Include everything from the publish folder, including all directories
-  discard-paths: yes  # Discard the directory structure in the output artifacts
+  
