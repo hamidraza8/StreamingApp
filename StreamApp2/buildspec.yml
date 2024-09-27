@@ -3,25 +3,25 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Installing .NET Core
-      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0  # Adjust version as needed
-      - export PATH="$PATH:$HOME/.dotnet"  # Ensures dotnet is in the path
-      - dotnet --version  # Verifies .NET Core is installed
+      - echo Installing .NET Core 8.0 SDK
+      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0  # Install .NET 8.0
+      - export PATH="$PATH:$HOME/.dotnet"  # Add .NET to PATH
+      - dotnet --version  # Verify the installed .NET SDK version
   pre_build:
     commands:
       - echo Restoring NuGet packages
-      - dotnet restore  # Restores NuGet packages for the solution or project
+      - dotnet restore  # Restore dependencies
   build:
     commands:
       - echo Building the project
-      - dotnet build --configuration Release  # Builds the project in Release configuration
+      - dotnet build --configuration Release  # Build the project in Release mode
   post_build:
     commands:
       - echo Running tests
-      - dotnet test --no-build --verbosity normal  # Optional: Runs unit tests after building
+      - dotnet test --no-build --verbosity normal  # Run tests
 
 artifacts:
   files:
     - '**/*'
-    - '!**/*.pdb'  # Excludes PDB files if not needed
+    - '!**/*.pdb'  # Exclude PDB files if not needed
   discard-paths: yes
