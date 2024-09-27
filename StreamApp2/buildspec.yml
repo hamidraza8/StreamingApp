@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       - echo Installing .NET Core
-      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 7.0  # Adjust version as needed
+      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0  # Adjust version as needed
       - export PATH="$PATH:$HOME/.dotnet"  # Ensures dotnet is in the path
       - dotnet --version  # Verifies .NET Core is installed
   pre_build:
