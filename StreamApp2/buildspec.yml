@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing .NET Core
+      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 7.0  # Adjust version as needed
+      - export PATH="$PATH:$HOME/.dotnet"  # Ensures dotnet is in the path
+      - dotnet --version  # Verifies .NET Core is installed
+  pre_build:
+    commands:
+      - echo Restoring NuGet packages
+      - dotnet restore  # Restores NuGet packages for the solution or project
+  build:
+    commands:
+      - echo Building the project
+      - dotnet build --configuration Release  # Builds the project in Release configuration
+  post_build:
+    commands:
+      - echo Running tests
+      - dotnet test --no-build --verbosity normal  # Optional: Runs unit tests after building
+
+artifacts:
+  files:
+    - '**/*'
+    - '!**/*.pdb'  # Excludes PDB files if not needed
+  discard-paths: yes
