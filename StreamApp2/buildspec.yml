@@ -4,9 +4,10 @@ phases:
   install:
     commands:
       - echo Installing .NET Core 8.0 SDK
-      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0  # Install .NET 8.0
-      - export PATH="$PATH:$HOME/.dotnet"  # Add .NET to PATH
-      - dotnet --version  # Verify the installed .NET SDK version
+      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0  # Install .NET 8.0 SDK
+      - export PATH="$PATH:$HOME/.dotnet"
+      - export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true  # Disable globalization
+      - dotnet --version  # Verify the SDK installation
   pre_build:
     commands:
       - echo Restoring NuGet packages
@@ -18,10 +19,10 @@ phases:
   post_build:
     commands:
       - echo Running tests
-      - dotnet test --no-build --verbosity normal  # Run tests
+      - dotnet test --no-build --verbosity normal  # Optional: Run tests
 
 artifacts:
   files:
     - '**/*'
-    - '!**/*.pdb'  # Exclude PDB files if not needed
+    - '!**/*.pdb'
   discard-paths: yes
