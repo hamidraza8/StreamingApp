@@ -4,12 +4,11 @@ phases:
   install:
     commands:
       - echo Installing required dependencies
-      - yum install -y libicu  # For Amazon Linux
-      - apt-get update && apt-get install -y libicu-dev  # For Ubuntu-based environments
+      - yum install -y libicu  # Use yum to install libicu
       - echo Installing .NET Core 8.0 SDK
-      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0  # Install .NET 8.0 SDK
+      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0
       - export PATH="$PATH:$HOME/.dotnet"
-      - dotnet --version  # Verify the SDK installation  
+      - dotnet --version  # Verify the SDK installation
   pre_build:
     commands:
       - echo Restoring NuGet packages
@@ -17,10 +16,13 @@ phases:
   build:
     commands:
       - echo Building the project
-      - dotnet build --configuration Release  # Build the project in Release mode ddd
- 
+      - dotnet publish --configuration Release -o publish  # Publish the project to the 'publish' folder
+  post_build:
+    commands:
+      - echo Running tests
+      - dotnet test --no-build --verbosity normal  # Optional: Run tests
+
 artifacts:
   files:
-     - 'publish/**/*'
-discard-paths: yes 
- 
+    - 'publish/**/*'  # Include everything from the publish folder, including all directories
+  discard-paths: yes  # Discard the directory structure in the output artifacts
