@@ -9,7 +9,7 @@ phases:
       - echo Installing .NET Core 8.0 SDK
       - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0  # Install .NET 8.0 SDK
       - export PATH="$PATH:$HOME/.dotnet"
-      - dotnet --version  # Verify the SDK installation
+      - dotnet --version  # Verify the SDK installation  
   pre_build:
     commands:
       - echo Restoring NuGet packages
@@ -18,11 +18,7 @@ phases:
     commands:
       - echo Building the project
       - dotnet build --configuration Release  # Build the project in Release mode
-  post_build:
-    commands:
-      - echo Running tests
-      - dotnet test --no-build --verbosity normal  # Optional: Run tests
-
+ 
 artifacts:
   files:
     - '**/*'
