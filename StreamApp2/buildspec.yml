@@ -2,15 +2,17 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      dotnet: 8.0
-
+    commands:
+      - echo Installing required dependencies
+      - yum install -y libicu  # Use yum to install libicu
+      - echo Installing .NET Core 8.0 SDK
+      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0
+      - export PATH="$PATH:$HOME/.dotnet"
+      - dotnet --version  # Verify the SDK installation
   pre_build:
     commands:
-      - echo Restore started on `date`
-      - echo "CURRENT DIR `pwd`"
-      - dotnet restore StreamApp2/UMS.API2.csproj
-
+      - echo Restoring NuGet packages
+      - dotnet restore  # Restore dependencies
   build:
     commands:
       - echo Build started on `date`
