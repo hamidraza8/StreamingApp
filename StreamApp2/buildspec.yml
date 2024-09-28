@@ -2,27 +2,27 @@ version: 0.2
 
 phases:
   install:
-    commands:
-      - echo Installing required dependencies
-      - yum install -y libicu  # Use yum to install libicu
-      - echo Installing .NET Core 8.0 SDK
-      - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0
-      - export PATH="$PATH:$HOME/.dotnet"
-      - dotnet --version  # Verify the SDK installation
+    runtime-versions:
+      dotnet: 8.0
+
   pre_build:
     commands:
-      - echo Restoring NuGet packages
-      - dotnet restore  # Restore dependencies
+      - echo Restore started on `date`
+      - echo "CURRENT DIR `pwd`"
+      - dotnet restore StreamApp2/UMS.API2.csproj
+
   build:
     commands:
-      - echo Building the project
-      - dotnet publish --configuration Release -o publish  # Publish the project to the 'publish' folder
+      - echo Build started on `date`
+      - dotnet build StreamApp2/UMS.API2.csproj
+
   post_build:
     commands:
-      - echo Running tests
-      - dotnet test --no-build --verbosity normal  # Optional: Run tests
+      - echo Publish started on `date`
+      - dotnet publish -c Release -o ./build-output StreamApp2/UMS.API2.csproj
 
 artifacts:
+  name: DEMO_API_Build_#$CODEBUILD_BUILD_NUMBER
+  base-directory: './build-output'
   files:
-    - 'publish/**/*'  # Include everything from the publish folder, including all directories
-  
+    - ./**/*
